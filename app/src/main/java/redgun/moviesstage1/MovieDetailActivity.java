@@ -1,19 +1,36 @@
 package redgun.moviesstage1;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MovieDetailActivity extends AppCompatActivity {
+
+    ImageView movie_poster_iv;
+    TextView movie_release_date_tv;
+    TextView movie_user_rating_tv;
+    TextView movie_title_tv;
+    TextView movie_synopsis_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        Intent i = getIntent();
+        Movies mi = i.getExtras().getParcelable("parcelMovie");
 
+        ImageView movie_poster_iv = (ImageView) findViewById(R.id.movie_poster_iv);
+        TextView movie_release_date_tv = (TextView) findViewById(R.id.movie_release_date_tv);
+        TextView movie_user_rating_tv = (TextView) findViewById(R.id.movie_user_rating_tv);
+        TextView movie_title_tv = (TextView) findViewById(R.id.movie_title_tv);
+        TextView movie_synopsis_tv = (TextView) findViewById(R.id.movie_synopsis_tv);
+
+        //movie_poster_iv.setImageDrawable();
+        movie_release_date_tv.setText(mi.getRelease_date());
+        movie_user_rating_tv.setText(mi.getVote_average());
+        movie_title_tv.setText(mi.getTitle());
+        movie_synopsis_tv.setText(mi.getOverview());
     }
-
 }

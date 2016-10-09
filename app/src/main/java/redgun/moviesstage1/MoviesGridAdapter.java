@@ -61,8 +61,8 @@ public class MoviesGridAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
         //TODO Use Picassa example
-       // holder.grid_movie_poster_iv.(result.get(position).getMoviePosterPic());
-        holder.grid_movie_title_tv.setText(result.get(position).getMovieTitle());
+       // holder.grid_movie_poster_iv.(result.get(position).getPoster_path());
+        holder.grid_movie_title_tv.setText(result.get(position).getTitle());
         return rowView;
     }
 
