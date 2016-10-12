@@ -1,12 +1,15 @@
 package redgun.moviesstage1;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,7 @@ public class MoviesGridAdapter extends BaseAdapter {
     public MoviesGridAdapter(Context context, ArrayList<Movies> moviesArrayList) {
         // TODO Auto-generated constructor stub
         result = moviesArrayList;
-        context = context;
+        this.context = context;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,13 +59,16 @@ public class MoviesGridAdapter extends BaseAdapter {
             holder = new Holder();
             holder.grid_movie_title_tv = (TextView) rowView.findViewById(R.id.grid_movie_title_tv);
             holder.grid_movie_poster_iv = (ImageView) rowView.findViewById(R.id.grid_movie_poster_iv);
+
             rowView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
-        //TODO Use Picassa example
-       // holder.grid_movie_poster_iv.(result.get(position).getPoster_path());
-        holder.grid_movie_title_tv.setText(result.get(position).getTitle());
+        //TODO Use Picasso example
+        // holder.grid_movie_poster_iv.(result.get(position).getMoviePoster());
+        holder.grid_movie_title_tv.setText(result.get(position).getMovieTitle());
+        Picasso.with(context).load(context.getResources().getString(R.string.base_image_url).concat(result.get(position).getMoviePoster())).into(holder.grid_movie_poster_iv);
+        Log.i("MovieGripAdapter", context.getResources().getString(R.string.base_image_url).concat(result.get(position).getMoviePoster()));
         return rowView;
     }
 

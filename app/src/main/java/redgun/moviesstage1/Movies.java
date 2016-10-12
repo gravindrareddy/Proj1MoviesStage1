@@ -3,63 +3,79 @@ package redgun.moviesstage1;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
+
+import java.util.List;
+
 /**
  * Created by gravi on 29-09-2016.
  */
 public class Movies implements Parcelable {
-    String title;
-    String poster_path;
-    String overview;
-    double vote_average;
-    String release_date;
 
 
-    Movies(String title, String poster_path, String overview, double vote_average, String release_date) {
-        this.title = title;
-        this.poster_path = poster_path;
-        this.overview = overview;
-        this.vote_average = vote_average;
-        this.release_date = release_date;
+    @SerializedName("title")
+    String movieTitle;
+
+    @SerializedName("poster_path")
+    String moviePoster;
+
+    @SerializedName("overview")
+    String movieOverview;
+
+    @SerializedName("vote_average")
+    double averageRating;
+
+    @SerializedName("release_date")
+    String movieReleaseDate;
+
+
+    Movies(String movieTitle, String moviePoster, String movieOverview, double averageRating, String movieReleaseDate) {
+        this.movieTitle = movieTitle;
+        this.moviePoster = moviePoster;
+        this.movieOverview = movieOverview;
+        this.averageRating = averageRating;
+        this.movieReleaseDate = movieReleaseDate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
-    public String getPoster_path() {
-        return poster_path;
+    public String getMoviePoster() {
+        return moviePoster;
     }
 
-    public void setPoster_path(String poster_path) {
-        this.poster_path = poster_path;
+    public void setMoviePoster(String moviePoster) {
+        this.moviePoster = moviePoster;
     }
 
-    public String getOverview() {
-        return overview;
+    public String getMovieOverview() {
+        return movieOverview;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public void setMovieOverview(String movieOverview) {
+        this.movieOverview = movieOverview;
     }
 
-    public double getVote_average() {
-        return vote_average;
+    public double getAverageRating() {
+        return averageRating;
     }
 
-    public void setVote_average(double vote_average) {
-        this.vote_average = vote_average;
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
-    public String getRelease_date() {
-        return release_date;
+    public String getMovieReleaseDate() {
+        return movieReleaseDate;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    public void setMovieReleaseDate(String movieReleaseDate) {
+        this.movieReleaseDate = movieReleaseDate;
     }
 
     @Override
@@ -70,11 +86,11 @@ public class Movies implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(poster_path);
-        dest.writeString(overview);
-        dest.writeDouble(vote_average);
-        dest.writeString(release_date);
+        dest.writeString(movieTitle);
+        dest.writeString(moviePoster);
+        dest.writeString(movieOverview);
+        dest.writeDouble(averageRating);
+        dest.writeString(movieReleaseDate);
 
     }
 
@@ -92,11 +108,11 @@ public class Movies implements Parcelable {
 
     // "De-parcel object
     public Movies(Parcel in) {
-        title = in.readString();
-        poster_path = in.readString();
-        overview = in.readString();
-        vote_average = in.readDouble();
-        release_date = in.readString();
+        movieTitle = in.readString();
+        moviePoster = in.readString();
+        movieOverview = in.readString();
+        averageRating = in.readDouble();
+        movieReleaseDate = in.readString();
     }
 
 

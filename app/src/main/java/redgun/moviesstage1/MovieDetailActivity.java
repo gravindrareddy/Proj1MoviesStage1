@@ -28,9 +28,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView movie_synopsis_tv = (TextView) findViewById(R.id.movie_synopsis_tv);
 
         //movie_poster_iv.setImageDrawable();
-        movie_release_date_tv.setText(mi.getRelease_date());
-        movie_user_rating_tv.setText(mi.getVote_average());
-        movie_title_tv.setText(mi.getTitle());
-        movie_synopsis_tv.setText(mi.getOverview());
+        movie_release_date_tv.setText(mi.getMovieReleaseDate());
+        movie_user_rating_tv.setText(mi.getAverageRating()+"");
+        movie_title_tv.setText(mi.getMovieTitle());
+        movie_synopsis_tv.setText(mi.getMovieOverview());
     }
 }
