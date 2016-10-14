@@ -45,11 +45,9 @@ public class MoviesGridActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies_grid);
         TAG = this.getClass().getName();
         context = this;
-        FetchMoviesTask moviesTask = new FetchMoviesTask(context);
-        moviesTask.execute();
+
+
         movies_gv = (GridView) findViewById(R.id.movies_gv);
-
-
         movies_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // Send intent to SingleViewActivity
@@ -94,15 +92,11 @@ public class MoviesGridActivity extends AppCompatActivity {
         // todo get the user preference of sort order
     }
 
-
-    private void updateMovie() {
-        FetchMoviesTask moviesTask = new FetchMoviesTask(context);
-        moviesTask.execute();
-    }
-
     public void onStart() {
         super.onStart();
-        //   updateMovie();
+        FetchMoviesTask moviesTask = new FetchMoviesTask(context);
+        moviesTask.execute();
+
     }
 
 
@@ -146,7 +140,7 @@ public class MoviesGridActivity extends AppCompatActivity {
                         .authority(getResources().getString(R.string.base_url))
                         .appendPath(getResources().getString(R.string.base_url_add1))
                         .appendPath(getResources().getString(R.string.base_url_add2))
-                        .appendPath((prefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_top))))
+                        .appendPath(sort_by)
                         .appendQueryParameter(OWM_APIKEY, BuildConfig.MOVIES_DB_API_KEY);
                 URL url = new URL(builder.build().toString());
                 // Create the request to OpenWeatherMap, and open the connection
