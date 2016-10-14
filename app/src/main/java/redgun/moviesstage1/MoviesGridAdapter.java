@@ -57,7 +57,6 @@ public class MoviesGridAdapter extends BaseAdapter {
         if (rowView == null) {
             rowView = inflater.inflate(R.layout.movies_grid_item, parent, false);
             holder = new Holder();
-            holder.grid_movie_title_tv = (TextView) rowView.findViewById(R.id.grid_movie_title_tv);
             holder.grid_movie_poster_iv = (ImageView) rowView.findViewById(R.id.grid_movie_poster_iv);
 
             rowView.setTag(holder);
@@ -66,7 +65,6 @@ public class MoviesGridAdapter extends BaseAdapter {
         }
         //TODO Use Picasso example
         // holder.grid_movie_poster_iv.(result.get(position).getMoviePoster());
-        holder.grid_movie_title_tv.setText(result.get(position).getMovieTitle());
         Picasso.with(context).load(context.getResources().getString(R.string.base_image_url).concat(result.get(position).getMoviePoster())).into(holder.grid_movie_poster_iv);
         Log.i("MovieGripAdapter", context.getResources().getString(R.string.base_image_url).concat(result.get(position).getMoviePoster()));
         return rowView;
@@ -74,7 +72,7 @@ public class MoviesGridAdapter extends BaseAdapter {
 
     public class Holder {
         ImageView grid_movie_poster_iv;
-        TextView grid_movie_title_tv;
+
 
     }
 
