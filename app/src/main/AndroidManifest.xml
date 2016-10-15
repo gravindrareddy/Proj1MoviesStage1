@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity android:name=".MoviesGridActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +21,11 @@
         </activity>
         <activity
             android:name=".MovieDetailActivity"
-            android:label="@string/title_activity_movie_detail"></activity>
+            android:label="@string/title_activity_movie_detail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MoviesGridActivity" />
+        </activity>
 
         <activity
             android:name=".SettingsActivity"
