@@ -117,63 +117,76 @@ public class MoviesGridActivity extends AppCompatActivity {
 
         private boolean DEBUG = true;
         private ProgressDialog progress;
+        private volatile boolean running = true;
 
         protected void onPreExecute() {
-            progress = new ProgressDialog(context);
-            progress.show();
+            if (Utility.isOnline(context)) {
+                progress = new ProgressDialog(context);
+                progress.show();
+            } else {
+                cancel(true);
+            }
             super.onPreExecute();
         }
 
         @Override
+        protected void onCancelled() {
+            running = false;
+        }
+
+        @Override
         protected ArrayList<Movies> doInBackground(String... params) {
-            // URL for calling the API is needed
-            final String OWM_APIKEY = "api_key";
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            String sort_by = prefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_top));
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            String moviesJsonStr = null;
-            try {
-                Uri.Builder builder = new Uri.Builder();
-                builder.scheme("https")
-                        .authority(getResources().getString(R.string.base_url))
-                        .appendPath(getResources().getString(R.string.base_url_add1))
-                        .appendPath(getResources().getString(R.string.base_url_add2))
-                        .appendPath(sort_by)
-                        .appendQueryParameter(OWM_APIKEY, BuildConfig.MOVIES_DB_API_KEY);
-                URL url = new URL(builder.build().toString());
-                // Create the request to OpenWeatherMap, and open the connection
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                if (urlConnection.getResponseCode() == 200) {
-                    Gson gson = new GsonBuilder().create();
-                    APIResponse moviesResponse = gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), APIResponse.class);
-                    moviesList = moviesResponse.movies;
+            if (!isCancelled()) {
+                // URL for calling the API is needed
+                final String OWM_APIKEY = "api_key";
 
-                } else {
-                    Utility.showToast(context, "Something went wrong");
-                }
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String sort_by = prefs.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_top));
+                HttpURLConnection urlConnection = null;
+                BufferedReader reader = null;
+                String moviesJsonStr = null;
+                try {
+                    Uri.Builder builder = new Uri.Builder();
+                    builder.scheme("https")
+                            .authority(getResources().getString(R.string.base_url))
+                            .appendPath(getResources().getString(R.string.base_url_add1))
+                            .appendPath(getResources().getString(R.string.base_url_add2))
+                            .appendPath(sort_by)
+                            .appendQueryParameter(OWM_APIKEY, BuildConfig.MOVIES_DB_API_KEY);
+                    URL url = new URL(builder.build().toString());
+                    // Create the request to OpenWeatherMap, and open the connection
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    InputStream inputStream = urlConnection.getInputStream();
+                    if (urlConnection.getResponseCode() == 200) {
+                        Gson gson = new GsonBuilder().create();
+                        APIResponse moviesResponse = gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), APIResponse.class);
+                        moviesList = moviesResponse.movies;
+
+                    } else {
+                        Utility.showToast(context, "Something went wrong");
+                    }
 
 
-            } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
-                e.printStackTrace();
-                // If the code didn't successfully get the weather data, there's no point in attemping
-                // to parse it.
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e("PlaceholderFragment12", "Error closing stream", e.fillInStackTrace());
-                        e.printStackTrace();
+                } catch (IOException e) {
+                    Log.e("PlaceholderFragment", "Error ", e);
+                    e.printStackTrace();
+                    // If the code didn't successfully get the weather data, there's no point in attemping
+                    // to parse it.
+                    return null;
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (final IOException e) {
+                            Log.e("PlaceholderFragment12", "Error closing stream", e.fillInStackTrace());
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -184,8 +197,11 @@ public class MoviesGridActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final ArrayList<Movies> responseMoviesList) {
             moviesList = responseMoviesList;
-            Utility.showToast(context, moviesList.size() + "");
-            movies_gv.setAdapter(new MoviesGridAdapter(context, moviesList));
+            if (moviesList == null) {
+                Utility.showToast(context, "No Movies Available. Please try again");
+            } else {
+                movies_gv.setAdapter(new MoviesGridAdapter(context, moviesList));
+            }
             progress.dismiss();
         }
     }

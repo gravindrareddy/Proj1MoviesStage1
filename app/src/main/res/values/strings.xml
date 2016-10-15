@@ -12,5 +12,6 @@
     <string name="base_image_url">https://image.tmdb.org/t/p/w500</string>
     <string name="base_url_add1">3</string>
     <string name="base_url_add2">movie</string>
+    <string name="internet_error">No Internet!!</string>
 
 </resources>
